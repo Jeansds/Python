@@ -1,0 +1,2 @@
+Os Exercicios correspondem a alguns exercicios encontrados neste link https://wiki.python.org.br/ListaDeExercicios a partir da lista 5 ExerciciosFuncoes
+Obs:Estão em ordem porem não estão numerados de acordo com o link
