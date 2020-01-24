@@ -1,3 +1,3 @@
-Todos os codigos foram retirados do site https://pylessons.com/, talvez haja algumas diferen�as pois os utilizei para varios testes;
+Todos os codigos foram retirados do site https://pylessons.com/, talvez haja algumas diferenças pois os utilizei para varios testes;
 Todos os dados para teste foram retirados do site https://www.kaggle.com/c/dogs-vs-cats/data ;
-Os codigos foram utilizados para entender todo o processo de reconhecimento de imagem, modelos de regress�o linear como sigmoid, relu... e como funciona o over feeding e reconhecimento de imgs que n�o pertencem ao ambiente de treinamento.
+Os codigos foram utilizados para entender todo o processo de reconhecimento de imagem, modelos de regressão linear como sigmoid, relu... e como funciona o over feeding, reconhecimento de imgs que não pertencem ao ambiente de treinamento, alterações no programa como a quantidade de hidden layers, treinamentos..., entre outras variações que são mencionadas nessa playlist de video aulas https://www.youtube.com/watch?v=6SlgtELqOWc&list=PLC1qU-LWwrF64f4QKQT-Vg5Wr4qEE1Zxk&index=8
