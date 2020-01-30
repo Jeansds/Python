@@ -1,4 +1,4 @@
-Vers„o Python utilizada 3.7.5(necessario python 3.x + para rodar)
+Vers√£o Python utilizada 3.7.5(necessario python 3.x + para rodar)
 
 Comandos Terminal:
 
@@ -10,5 +10,6 @@ Executavel:
 Coletor_Moedas_Com_Interface
 
 Objetivo:
-Coletar as cotaÁıes de determinadas moedas de uma data atÈ a data atual,para obter mais codigos de moedas basta acessar ao site:https://www.bcb.gov.br/estabilidadefinanceira/historicocotacoes
-clicar com o bot„o direito em cima do campo Moeda, Inspecionar, a lista select e adicionar o valor da moeda na variavel Codigos.
+Coletar as cota√ß√µes de determinadas moedas de uma data at√© a data atual,para obter mais codigos de moedas basta acessar ao
+site:https://www.bcb.gov.br/estabilidadefinanceira/historicocotacoes
+clicar com o bot√£o direito em cima do campo Moeda, Inspecionar,abrir a lista select, encontrar o valor da moeda que voce deseja e adicionar o valor da moeda na variavel Codigos.
