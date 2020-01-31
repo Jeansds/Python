@@ -7,8 +7,8 @@ import xlsxwriter
 import re
 
 def quit():
-    global root
-    window.quit()
+    	global root
+    	window.quit()
 def get(l1):
 	global Dia
 	global Mes
@@ -34,7 +34,7 @@ def download(l1):
 	for i in range(6):
 		Data_Frame=pd.DataFrame({'':[Cabec[i]]})
 		Data_Frame.to_excel(Escrever, sheet_name='Sheet1',startrow=0,
-                        	startcol=i, header=False, index=False)
+                	startcol=i, header=False, index=False)
 	l1.destroy()
 	l1=Label(window,text="Realizando Download")
 	l1.grid(row=5,column=1)
@@ -55,7 +55,7 @@ def download(l1):
 		for j in range(len(i)):
 			Data_Frame=pd.DataFrame({'':[i[j]]})
 			Data_Frame.to_excel(Escrever, sheet_name='Sheet1',
-								startrow=Contador, startcol=j, header=False, index=False)
+				startrow=Contador, startcol=j, header=False, index=False)
 		Contador=Contador+1
 	Escrever.save()
 	l1.destroy()
