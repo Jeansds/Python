@@ -4,6 +4,7 @@ import pandas as pd
 from tkinter import *
 import operator
 import xlsxwriter
+import re
 
 def quit():
     global root
@@ -28,12 +29,12 @@ def download(l1):
 	#Formato de data = "DD/MM/YYYY"
 	Inicio=Dia+"/"+Mes+"/"+Ano
 	Fim=datetime.strftime(datetime.strptime(str(datetime.now().date()),'%Y-%m-%d'),'%d/%m/%Y')
-	Nome='Historico_Cotacao.xlsx'
+	Nome=re.sub("-","",str(datetime.now().date()))+'_BC cotacao.xlsx'
 	Escrever=pd.ExcelWriter(Nome, engine='xlsxwriter')
 	for i in range(6):
 		Data_Frame=pd.DataFrame({'':[Cabec[i]]})
 		Data_Frame.to_excel(Escrever, sheet_name='Sheet1',startrow=0,
-                        startcol=i, header=False, index=False)
+                        	startcol=i, header=False, index=False)
 	l1.destroy()
 	l1=Label(window,text="Realizando Download")
 	l1.grid(row=5,column=1)
@@ -44,10 +45,11 @@ def download(l1):
 			for j in k:
 				l=j.split(";")
 				l[0]=l[0][0:2]+"/"+l[0][2:4]+"/"+l[0][4:]
-				if l!=['']:
+				if l!=[''] and l!=['//']:
 					Final.append(l)
 		except:
 			pass
+	print(Final)
 	Final=sorted(Final,key=operator.itemgetter(0))
 	for i in Final:
 		for j in range(len(i)):
