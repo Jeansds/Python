@@ -1,4 +1,4 @@
-Vers„o Python utilizada 3.7.5(necessario python 3.x + para rodar)
+Vers√£o Python utilizada 3.7.5(necessario python 3.x + para rodar)
 
 Softwares Externos:
 Selenium web service
@@ -6,20 +6,14 @@ Biblioteca re
 Biblioteca Tkinter
 MicrosoftWebDriver(Edge)
 
-ObservaÁıes: 
-Para o programa rodar È necessario abrir a barra de pesquisa do seu computador e digitar UAC(Alterar configuraÁıes de controle de usuario)
-e difinir o nivel de notificaÁıes para sempre notificar(3∫ ou 4∫ barra de baixo para cima) pois sem isso n„o È possivel abrir o WebDriver pelo python;
+Observa√ß√µes: 
+Para o programa rodar √© necessario abrir a barra de pesquisa do seu computador e digitar UAC(Alterar configura√ß√µes de controle de usuario)
+e difinir o nivel de notifica√ß√µes para sempre notificar(3¬∫ ou 4¬∫ barra de baixo para cima) pois sem isso n√£o √© possivel abrir o WebDriver pelo python;
 
-O MicrosoftWebDriver(Edge) precisa ser baixado na sua vers„o do edge, para verificar a sua vers„o abra o edge, click em ... e desÁa atÈ o final das
-configuraÁıes e la havera a sua vers„o do edge, depois basta entrar no link abaixo e baixar o driver correspondente a sua vers„o:
+O MicrosoftWebDriver(Edge) precisa ser baixado na sua vers√£o do edge, para verificar a sua vers√£o abra o edge, click em ... e des√ßa at√© o final das configura√ß√µes e la havera a sua vers√£o do edge, depois basta entrar no link abaixo e baixar o driver correspondente a sua vers√£o:
 https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/
 
-No programa existem variaveis chamadas Base e empresa, a variavel Base È a empresa que servira para fazer a copia do ambiente e a variave Empresa È
-a empresa de destino que voce deseja criar o portal, coloque o nome exatamente como esta no site pois n„o ira acessar se estiver incorreto nome(inclui
-letras maiusculas e minusculas tambem), a Variavel Caminho indica o caminho que seu internet explorer esta baixando os arquivos pois os relatorios
-ser„o baixados nesse caminho, copie exatamente o caminho para a sua pasta de download ou a pasta que seu microsoft edge esta fazendo o download(caso
-n„o saiba onde seu edge esta fazendo o download nas intruÁıes abaixo voce vera o caminho de download e como alteralo)
-Obs: alterar todos os \ por / e adicionar o / no final do caminho pois o programa n„o ira funcionar se apenas copiar o caminho.
+No programa existem variaveis chamadas Base e empresa, a variavel Base √© a empresa que servira para fazer a copia do ambiente e a variave Empresa √© a empresa de destino que voce deseja criar o portal, coloque o nome exatamente como esta no site pois n√£o ira acessar se estiver incorreto nome(inclui letras maiusculas e minusculas tambem), a Variavel Caminho indica o caminho que seu internet explorer esta baixando os arquivos pois os relatorios ser√£o baixados nesse caminho, copie exatamente o caminho para a sua pasta de download ou a pasta que seu microsoft edge esta fazendo o download(caso n√£o saiba onde seu edge esta fazendo o download nas intru√ß√µes abaixo voce vera o caminho de download e como alteralo)
+Obs: alterar todos os \ por / e adicionar o / no final do caminho pois o programa n√£o ira funcionar se apenas copiar o caminho.
 
-No Edge È necessario configurar os downloads para n„o precisarem de confirmaÁ„o quando for solicitado o download, para isso clique em ... no canto
-superior direito, ConfiguraÁıes avanÁadas e em Downloads logo abaixo tem a opÁ„o: Perguntar o que fazer com cada download, desmarque esta opÁ„o.
+No Edge √© necessario configurar os downloads para n√£o precisarem de confirma√ß√£o quando for solicitado o download, para isso clique em ... no canto superior direito, Configura√ß√µes avan√ßadas e em Downloads logo abaixo tem a op√ß√£o: Perguntar o que fazer com cada download, desmarque esta op√ß√£o.
