@@ -1,10 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver import Edge
 from selenium.webdriver.support.select import Select
-from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import StaleElementReferenceException
-from selenium.common.exceptions import ElementClickInterceptedException
 from selenium.common.exceptions import WebDriverException
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 import time
@@ -12,9 +10,9 @@ import re
 from tkinter import *
 import os
 
-Caminho = "C:/Downloads/"
-Base = ""
-Empresa = ""
+Caminho = "C:/Users/U300398/Downloads/"
+Base = "VB"
+Empresa = "Sua Marca"
 dados = []
 valores = []
 Botoes = []
@@ -59,7 +57,7 @@ def Carregar_xpath(X):
 		try:
 			retorno = driver.find_element_by_xpath(X)
 			link = True
-		except(NoSuchElementException, StaleElementReferenceException, ElementClickInterceptedException, WebDriverException):
+		except WebDriverException:
 			time.sleep(1)
 	time.sleep(0.3)
 	return retorno
@@ -70,7 +68,7 @@ def Carregar_id(X):
 		try:
 			retorno = driver.find_element_by_id(X)
 			link = True
-		except(NoSuchElementException, StaleElementReferenceException, ElementClickInterceptedException, WebDriverException):
+		except WebDriverException:
 			time.sleep(1)
 	time.sleep(0.3)
 	return retorno
@@ -81,7 +79,7 @@ def Carregar_class(X):
 		try:
 			retorno = driver.find_element_by_class_name(X)
 			link = True
-		except(NoSuchElementException, StaleElementReferenceException, ElementClickInterceptedException, WebDriverException):
+		except WebDriverException:
 			time.sleep(1)
 	time.sleep(0.3)
 	return retorno
@@ -92,7 +90,7 @@ def Carregar_name(X):
 		try:
 			retorno = driver.find_element_by_name(X)
 			link = True
-		except(NoSuchElementException, StaleElementReferenceException, ElementClickInterceptedException, WebDriverException):
+		except WebDriverException:
 			time.sleep(1)
 	time.sleep(0.3)
 	return retorno
@@ -103,14 +101,14 @@ def Carregar_nameS(X):
 		try:
 			retorno = driver.find_elements_by_name(X)
 			link = True
-		except(NoSuchElementException, StaleElementReferenceException, ElementClickInterceptedException, WebDriverException):
+		except WebDriverException:
 			time.sleep(1)
 	time.sleep(0.3)
 	return retorno
 
 def Reset():
 	Carregar_xpath("//a[contains(text(),'Página Inicial')]").click()
-	Carregar_xpath("//span[contains(text(),'" + Empresa + "')]").click()
+	driver.get("https://bi.hubcard.com.br/reports/browse/" + re.sub(" ", "%20", Empresa))
 
 def Copiar_Empresa():
 	Carregar_xpath("//span[contains(text(),'" + Base + "')]").click()
@@ -129,7 +127,7 @@ def Copiar_Empresa():
 		i.click()
 		time.sleep(1)
 		a = Carregar_class("actions-group hidden-xs ng-scope")
-		driver.find_element_by_xpath(Get_Xpath(a) + "/span/a").click()
+		Carregar_xpath(Get_Xpath(a) + "/span/a").click()
 		time.sleep(0.5)
 	b = Carregar_class("reports ng-scope")
 	a = driver.find_elements_by_xpath(Get_Xpath(b) + "//li")
@@ -146,7 +144,7 @@ def Copiar_Empresa():
 		i.click()
 		time.sleep(1)
 		a = Carregar_class("metadata ng-scope")
-		driver.find_element_by_xpath(Get_Xpath(a) + "/footer/div[4]/span/a").click()
+		Carregar_xpath(Get_Xpath(a) + "/footer/div[4]/span/a").click()
 		time.sleep(0.5)
 	b = Carregar_class("kpis ng-scope")
 	b = b.find_elements_by_class_name("name ng-binding")
@@ -159,22 +157,20 @@ def Copiar_Empresa():
 		i.click()
 		time.sleep(1)
 		a = Carregar_class("actions-group hidden-xs ng-scope")
-		driver.find_element_by_xpath(Get_Xpath(a) + "/span/a").click()
+		Carregar_xpath(Get_Xpath(a) + "/span/a").click()
 		time.sleep(0.5)
 	for i in b:
 		Relatorios_Moveis.append(i.text)
 def Copiar_Servidores():
 	for i in range(len(Dados)):
 		driver.get("https://bi.hubcard.com.br/reports/manage/catalogitem/datasource/" + Base + "/" + Dados[i])
-		a = Carregar_class("content")
-		Servidores.append(a.find_element_by_class_name("ng-binding ng-scope").text)
+		Servidores.append(Carregar_xpath((Get_Xpath(Carregar_class("sharedDataSourcePicker")))+"/span").text)
 	for i in range(len(Relatorios_Moveis)):
 		Servidores_Moveis.append([])
 		driver.get("https://bi.hubcard.com.br/reports/manage/catalogitem/datasets/" + Base + "/" +
 			(re.sub(" ", "%20", Relatorios_Moveis[i])))
 		a = driver.find_elements_by_xpath(
 			(Get_Xpath(Carregar_class("ng-scope content editdatasets"))) + "/edit-data-sets-form/div/form/div/span")
-
 		for j in a:
 			Servidores_Moveis[i].append(j.text)
 
@@ -221,15 +217,18 @@ def Verificar_Dados():
 	if len(b) != len(Dados):
 		for i in range(len(b)):
 			Falhas.append(b[i].text)
-		for i in range(Dados):
+		for i in range(len(Dados)):
 			if Falhas.count(Dados[i]) == 0:
 				Erro.append(Dados[i])
 	for i in Erro:
 		Carregar_id("upload-file").send_keys(Caminho + i + ".rsd")
 		time.sleep(1)
-		driver.get("https://bi.hubcard.com.br/reports/browse/" + Empresa)
+		driver.get("https://bi.hubcard.com.br/reports/browse/" + re.sub(" ", "%20", Empresa))
 	for i in Dados:
-		os.remove(Caminho + i + ".rdl")
+		try:
+			os.remove(Caminho + i + ".rsd")
+		except:
+			pass
 	Falhas.clear()
 	Erro.clear()
 	b = Carregar_class("reports ng-scope")
@@ -237,58 +236,75 @@ def Verificar_Dados():
 	if len(b) != len(Relatorios):
 		for i in range(len(b)):
 			Falhas.append(b[i].text)
-		for i in range(Relatorios):
+		for i in range(len(Relatorios)):
 			if Falhas.count(Relatorios[i]) == 0:
 				Erro.append(Relatorios[i])
 	for i in Erro:
 		Carregar_id("upload-file").send_keys(Caminho + i + ".rdl")
 		time.sleep(1)
-		driver.get("https://bi.hubcard.com.br/reports/browse/" + Empresa)
+		driver.get("https://bi.hubcard.com.br/reports/browse/" + re.sub(" ", "%20", Empresa))
 	for i in Relatorios:
-		os.remove(Caminho + i + ".rdl")
+		try:
+			os.remove(Caminho + i + ".rdl")
+		except:
+			pass
 	Falhas.clear()
 
 def Verificar_Servidores():
 	for i in range(len(Dados)):
-		driver.get("https://bi.hubcard.com.br/reports/manage/catalogitem/datasource/" + Empresa + "/" + Dados[i])
-		a = Carregar_class("content")
-		if a.find_element_by_class_name("ng-binding ng-scope").text != Servidores[i]:
+		driver.get("https://bi.hubcard.com.br/reports/manage/catalogitem/datasource/" + re.sub(" ", "%20", Empresa) + "/" + Dados[i])
+		try:
+			driver.find_element_by_xpath((Get_Xpath(Carregar_class("sharedDataSourcePicker")))+"/span")
+		except NoSuchElementException:
+			Carregar_xpath((Get_Xpath(Carregar_class("sharedDataSourcePicker")))+"/button/span").click()
 			Temp = Servidores[i].split("/")
 			Temp.remove("")
-			Temp[0] = Empresa
+			if Temp[0] == Base:
+				Temp[0] = Empresa
 			for j in Temp:
 				a = Carregar_class("modal-content")
-				a.find_element_by_xpath("//span[contains(text(),'" + j + "')]").click()
+				try:
+					a.find_element_by_xpath("//span[contains(text(),'" + j + "')]").click()
+				except NoSuchElementException:
+					time.sleep(1)
 			time.sleep(1)
-			try:
-				driver.find_element_by_xpath("//span[contains(text(),'Aplicar')]").click()
-			except WebDriverException:
-				time.sleep(1)
+			while True:
+				try:
+					driver.find_element_by_xpath("//button[contains(text(),'Aplicar')]").click()
+					break
+				except WebDriverException:
+					time.sleep(1)
 			time.sleep(1)
 	for i in range(len(Relatorios_Moveis)):
-		driver.get("https://bi.hubcard.com.br/reports/manage/catalogitem/datasets/" + Empresa + "/" +
+		driver.get("https://bi.hubcard.com.br/reports/manage/catalogitem/datasets/" + re.sub(" ", "%20", Empresa) + "/" +
 			(re.sub(" ", "%20", Relatorios_Moveis[i])))
-		a = driver.find_elements_by_xpath(
+		b = driver.find_elements_by_xpath(
 			(Get_Xpath(Carregar_class("ng-scope content editdatasets"))) + "/edit-data-sets-form/div/form/div/button")
-		for j in range(len(Relatorios_Moveis[i])):
-			Temp = Servidores_Moveis[i].split("/")
+		for j in range(len(Servidores_Moveis[i])):
+			Temp = Servidores_Moveis[i][j].split("/")
 			Temp.remove("")
-			Temp[0] = Empresa
-			a[j].click()
+			if Temp[0] == Base:
+				Temp[0] = Empresa
+			b[j].click()
 			for k in Temp:
 				a = Carregar_class("modal-content")
-				a.find_element_by_xpath("//span[contains(text(),'" + k + "')]").click()
+				try:
+					a.find_element_by_xpath("//span[contains(text(),'" + k + "')]").click()
+				except NoSuchElementException:
+					time.sleep(1)
 			time.sleep(1)
-			try:
-				driver.find_element_by_xpath("//span[contains(text(),'Salvar')]").click()
-			except WebDriverException:
+			while True:
+				try:
+					driver.find_element_by_xpath("//button[contains(text(),'Salvar')]").click()
+					break
+				except WebDriverException:
+					time.sleep(1)
 				time.sleep(1)
-			time.sleep(1)
 
 def Hidden_Objects():
 	for i in range(len(Dados)):
 		if Hidden_Dados[i] == True:
-			driver.get("https://bi.hubcard.com.br/reports/manage/catalogitem/" + Empresa + "/" + Dados[i])
+			driver.get("https://bi.hubcard.com.br/reports/manage/catalogitem/properties/" + re.sub(" ", "%20", Empresa) + "/" + Dados[i])
 			if Carregar_id("checkbox_disable").is_selected() == False:
 				Carregar_xpath("//span[contains(text(),'Ocultar este item')]").click()
 				time.sleep(0.1)
@@ -296,7 +312,7 @@ def Hidden_Objects():
 				time.sleep(1)
 	for i in range(len(Relatorios)):
 		if Hidden_Relatorios[i] == True:
-			driver.get("https://bi.hubcard.com.br/reports/manage/catalogitem/properties/" + Empresa + "/" + Relatorios[i])
+			driver.get("https://bi.hubcard.com.br/reports/manage/catalogitem/properties/" + re.sub(" ", "%20", Empresa) + "/" + Relatorios[i])
 			if Carregar_id("checkbox_disable").is_selected() == False:
 				Carregar_xpath("//span[contains(text(),'Ocultar este item')]").click()
 				time.sleep(0.1)
@@ -305,53 +321,56 @@ def Hidden_Objects():
 
 def Colar_KPIS():
 	for j in range(len(KPIS)):
-		Carregar_xpath("//span[contains(text(),'Novo')]").click()
-		Carregar_xpath("//span[contains(text(),'KPI')]").click()
-		Carregar_class("ng-pristine ng-valid ng-valid-required ng-valid-pattern ng-valid-maxlength")
-		a = Select(Carregar_id("value-format-select"))
-		a = a.select_by_value("DefaultCurrency")
-		time.sleep(2)
-		for i in range(len(ids_values)):
-			if valores[j][i] != None:
-				try:
-					a = Select(driver.find_element_by_id(ids_values[i]))
-					a.select_by_value(valores[j][i])
-				except:
+		if j>=0:
+			Carregar_xpath("//span[contains(text(),'Novo')]").click()
+			Carregar_xpath("//span[contains(text(),'KPI')]").click()
+			Carregar_class("ng-pristine ng-valid ng-valid-required ng-valid-pattern ng-valid-maxlength")
+			a = Select(Carregar_id("value-format-select"))
+			a = a.select_by_value("DefaultCurrency")
+			time.sleep(2)
+			for i in range(len(ids_values)):
+				if valores[j][i] != None:
 					try:
-						Temp = driver.find_element_by_id(ids_values[i])
-						Temp.click()
-						Temp.clear()
-						Temp.send_keys(valores[j][i])
+						a = Select(driver.find_element_by_id(ids_values[i]))
+						a.select_by_value(valores[j][i])
 					except:
-						pass
-		a = driver.find_elements_by_xpath("//ul[@class='visualizations']/li")
-		for i in a:
-			if i.get_attribute("title") == Botoes[j][0]:
+						try:
+							Temp = driver.find_element_by_id(ids_values[i])
+							Temp.click()
+							Temp.clear()
+							Temp.send_keys(valores[j][i])
+						except:
+							pass
+			a = driver.find_elements_by_xpath("//ul[@class='visualizations']/li")
+			for i in a:
+				time.sleep(0.2)
 				i.click()
-				time.sleep(0.5)
-				break
-		a = Carregar_class("col-xs-6 form-col-right")
-		a.find_element_by_class_name("input-group-btn").click()
-		dados[j][0] = Empresa
-		for i in range(len(dados[j])):
-			link = False
-			while(link == False):
+				if i.get_attribute("title") == Botoes[j][0]:
+					Temp=i
+					break
+			Temp.click()
+			a = Carregar_class("col-xs-6 form-col-right")
+			a.find_element_by_class_name("input-group-btn").click()
+			dados[j][0] = Empresa
+			for i in range(len(dados[j])):
+				link = False
+				while(link == False):
+					try:
+						a = Carregar_class("modal-content")
+						a.find_element_by_xpath("//span[contains(text(),'" + dados[j][i] + "')]").click()
+						link = True
+					except :
+						time.sleep(1)
+			time.sleep(0.5)
+			Carregar_xpath("//button[contains(text(),'OK')]").click()
+			time.sleep(2)
+			while True:
 				try:
-					a = Carregar_class("modal-content")
-					a.find_element_by_xpath("//span[contains(text(),'" + dados[j][i] + "')]").click()
-					link = True
-				except :
+					driver.find_element_by_xpath("//button[contains(text(),'Criar')]").click()
+					break
+				except WebDriverException:
 					time.sleep(1)
-		time.sleep(0.5)
-		Carregar_xpath("//button[contains(text(),'OK')]").click()
-		time.sleep(0.5)
-		while True:
-			try:
-				driver.find_element_by_xpath("//button[contains(text(),'Cancelar')]").click()
-				break
-			except WebDriverException:
-				time.sleep(1)
-		time.sleep(1)
+			time.sleep(1)
 
 def Carregar_Relatorios_Moveis():
 	driver.get("https://bi.hubcard.com.br/reports/browse/")
@@ -359,26 +378,28 @@ def Carregar_Relatorios_Moveis():
 	for i in Relatorios_Moveis:
 		Carregar_id("upload-file").send_keys(Caminho + i + ".rsmobile")
 		time.sleep(1)
-		driver.get("https://bi.hubcard.com.br/reports/browse/"+Empresa)
+		driver.get("https://bi.hubcard.com.br/reports/browse/"+re.sub(" ", "%20", Empresa))
 		os.remove(Caminho + i + ".rsmobile")
 
 def Iniciar():
 	global driver
+	os.startfile("C:/Users/U300398/Desktop/Copiador Ambientes/DISNEY.au3")
 	driver = Edge(executable_path = 'C:/Users/U300398/Desktop/MicrosoftWebDriver.exe')
+	driver.get("https://bi.hubcard.com.br/reports/browse/")
 	
 def Todos_os_Processos(l1):
-	driver.get("https://bi.hubcard.com.br/reports/browse/")
+	Iniciar()
 	Copiar_Empresa()
-	Copiar_KPIS()
-	Copiar_Servidores()
+	#Copiar_KPIS()
+	#Copiar_Servidores()
 	Reset()
-	Verificar_Dados()
-	Carregar_Relatorios_Moveis()
-	Verificar_Servidores()
-	Reset()
-	Hidden_Objects()
-	Reset()
-	Colar_KPIS()
+	#Verificar_Dados()
+	#Carregar_Relatorios_Moveis()
+	#Verificar_Servidores()
+	#Reset()
+	#Hidden_Objects()
+	#Reset()
+	#Colar_KPIS()
 	l1.destroy()
 	l1 = Label(window, text = "Finalizado", font = (None, 15))
 	l1.grid(row = 2, columnspan = 2)
@@ -386,12 +407,12 @@ def Todos_os_Processos(l1):
 window = Tk()
 l1 = Label(window, text = "Esperando", font = (None, 15))
 l1.grid(row = 2, columnspan = 2)
-b1 = Button(window, text = "Todos os processos", command = lambda:Todos_os_Processos(l1), height = 2, width = 15)
+b1 = Button(window, text = "Iniciar", command = lambda:Todos_os_Processos(l1), height = 2, width = 15)
 b1.grid(row = 1, column = 0)
-b2 = Button(window, text = "Iniciar Programa", command = lambda:Iniciar(), height = 2, width = 15)
-b2.grid(row = 0, column = 0)
-b3 = Button(window, text = "Fechar Navegador", command = lambda:driver.quit(), height = 2, width = 15)
-b3.grid(row = 0, column = 1)
-b4 = Button(window, text = "Finalizar", command = quit, height = 2, width = 15)
-b4.grid(row = 1, column = 1)
+l2 = Label(window, text = "Criador: Jean Santos", height = 2, width = 15)
+l2.grid(row = 0, column = 0)
+b2 = Button(window, text = "Fechar Navegador", command = lambda:driver.quit(), height = 2, width = 15)
+b2.grid(row = 0, column = 1)
+b3 = Button(window, text = "Finalizar", command = quit, height = 2, width = 15)
+b3.grid(row = 1, column = 1)
 window.mainloop()
