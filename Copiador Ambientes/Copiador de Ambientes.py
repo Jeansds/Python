@@ -10,8 +10,8 @@ import re
 from tkinter import *
 import os
 
-Caminho = "C:/Users/U300398/Downloads/"
-Base = "VB"
+Caminho = ""
+Base = "Marca"
 Empresa = "Sua Marca"
 dados = []
 valores = []
@@ -383,9 +383,9 @@ def Carregar_Relatorios_Moveis():
 
 def Iniciar():
 	global driver
-	os.startfile("C:/Users/U300398/Desktop/Copiador Ambientes/DISNEY.au3")
-	driver = Edge(executable_path = 'C:/Users/U300398/Desktop/MicrosoftWebDriver.exe')
-	driver.get("https://bi.hubcard.com.br/reports/browse/")
+	os.startfile("YOUR_PATH")
+	driver = Edge(executable_path = 'YOUR_PATH')
+	driver.get("LINK")
 	
 def Todos_os_Processos(l1):
 	Iniciar()
