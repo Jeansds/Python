@@ -77,5 +77,4 @@ def Traduzir(Frase):
         #|30/\/\ o||^
         # ö#ª ^^|=-|_| |^@|^[/\
         #0|/\
-        #ê174 @<ölz|>ä 4&?p[z^ //.€|_| P>*^^
 Traduzir(str(input("Digite uma frase")))
